@@ -7,7 +7,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import pl.infoshare.clinicweb.doctor.*;
+import pl.infoshare.clinicweb.doctor.Doctor;
+import pl.infoshare.clinicweb.doctor.DoctorDto;
+import pl.infoshare.clinicweb.doctor.DoctorMapper;
+import pl.infoshare.clinicweb.doctor.DoctorService;
 import pl.infoshare.clinicweb.exception.validation.TimeSlotUnavailableException;
 import pl.infoshare.clinicweb.patient.Patient;
 import pl.infoshare.clinicweb.patient.PatientDto;
@@ -52,14 +55,6 @@ public class VisitService {
         visitRepository.save(visit);
     }
 
-    public void updateVisit(VisitDto visitDto) {
-
-        Visit visit = visitMapper.toEntity(visitDto);
-
-        visitRepository.save(visit);
-    }
-
-
     public List<VisitDto> findAllVisits() {
 
         return visitRepository.findAll()
@@ -97,17 +92,6 @@ public class VisitService {
 
     }
 
-    public void deleteVisit(Visit visit) {
-
-        visitRepository.findById(visit.getId()).ifPresent(visitRepository::delete);
-    }
-
-    public void setVisitAttributes(Patient patient, Doctor doctor, Visit visit) {
-
-        visit.setPatient(patient);
-        visit.setDoctor(doctor);
-
-    }
 
     public VisitDto findVisitById(Long id) {
 
