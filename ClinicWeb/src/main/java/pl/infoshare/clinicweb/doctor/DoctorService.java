@@ -70,9 +70,8 @@ public class DoctorService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("id"));
 
-        List<DoctorDto> doctorDtos = doctorRepository.findAll()
+        List<DoctorDto> doctorDtos = doctorRepository.findAllBySpecialization(specialization)
                 .stream()
-                .filter(doctor -> doctor.getSpecialization().equals(specialization))
                 .map(doctorMapper::toDto)
                 .toList();
 
@@ -88,13 +87,6 @@ public class DoctorService {
         doctor.setSpecialization(specialization);
 
 
-    }
-
-    public DoctorDto findByPesel(String pesel) {
-
-        return doctorRepository.findByPesel(pesel.trim())
-                .map(doctorMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Doctor not found with pesel %s", pesel)));
     }
 
     public boolean existsByPesel(String pesel) {
