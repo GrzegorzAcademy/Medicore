@@ -8,10 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = PeselDuplicate.class)
+@Constraint(validatedBy = UniquePesel.class)
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PeselDuplicateValidator {
+public @interface UniquePeselValidator {
     String message() default "Podany numer pesel jest już zajęty";
 
     Class<?>[] groups() default {};
