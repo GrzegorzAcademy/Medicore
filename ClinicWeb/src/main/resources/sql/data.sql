@@ -72,8 +72,6 @@ values
 (false, 4, 3, '2025-09-22 05:30:00'),
 (false, 5, 4, '2025-09-03 06:30:00');
 
-
-
 INSERT INTO patients_cards (date_of_visit, doctor_id, id, patient_id, diagnosis, note_doctor, symptoms, treatment) VALUES
 ('2024-10-01 10:00:00', 1, 1, 1, 'Flu', 'Regular checkup', 'Fever, cough', 'Rest, hydration'),
 ('2024-10-05 11:30:00', 2, 2, 2, 'Cold', 'Prescribed meds', 'Sneezing, sore throat', 'Antibiotics'),
@@ -109,12 +107,12 @@ INSERT INTO patients_cards (date_of_visit, doctor_id, id, patient_id, diagnosis,
 ('2024-12-25 11:00:00', 1, 30, 10, 'Flu', 'Standard treatment', 'Fever, cough', 'Flu meds');
 
 
-INSERT INTO users(email, password, role) VALUES
-("malwina.kozak@gmail.com", "proste1234", 'PATIENT'),
-("damian.pered@onet.pl", "Puszek123!", 'DOCTOR'),
-("melania.halinowska@wp.pl", "trampek123", 'PATIENT'),
-("danuta.kopec@onet.pl", "Puszek123!", 'DOCTOR'),
-("krystian.krawiec@onet.pl", "Puszek123!", 'DOCTOR'),
-("admin@onet.pl", "admin", 'ADMIN');
+INSERT INTO users(EMAIL, PASSWORD, ROLE, NAME, SURNAME, PHONE_NUMBER, PESEL) VALUES
+("malwina.kozak@gmail.com", "proste1234", 'PATIENT', 'Malwina', 'Kozak', '765-444-555', '99010234567',);
+--("damian.pered@onet.pl", "Puszek123!", 'DOCTOR'),
+--("melania.halinowska@wp.pl", "trampek123", 'PATIENT'),
+--("danuta.kopec@onet.pl", "Puszek123!", 'DOCTOR'),
+--("krystian.krawiec@onet.pl", "Puszek123!", 'DOCTOR'),
+--("admin@onet.pl", "admin", 'ADMIN');
 
 

@@ -131,6 +131,35 @@
                    th:errors="${user.password}">Confirm password error</p>
             </div>
 
+            <div class="input-group">
+                <input type="text" th:field="*{name}" name="name" placeholder="Imię"
+                       required>
+                <p th:if="${#fields.hasErrors('name')}" class="text-danger"
+                   th:errors="${user.name}">Name error</p>
+            </div>
+
+            <div class="input-group">
+                <input type="text" th:field="*{surname}" name="surname" placeholder="Nazwisko"
+                       required>
+                <p th:if="${#fields.hasErrors('surname')}" class="text-danger"
+                   th:errors="${user.surname}">Surname error</p>
+            </div>
+
+            <div class="input-group">
+                <input type="text" th:field="*{pesel}" name="pesel" placeholder="Pesel"
+                       required>
+                <p th:if="${#fields.hasErrors('pesel')}" class="text-danger"
+                   th:errors="${user.pesel}">Pesel error</p>
+            </div>
+
+            <div class="input-group">
+                <input type="text" th:field="*{phoneNumber}" name="phoneNumber" placeholder="Numer telefonu"
+                       required>
+                <p th:if="${#fields.hasErrors('phoneNumber')}" class="text-danger"
+                   th:errors="${user.phoneNumber}">Phone error</p>
+            </div>
+
+
             <div sec:authorize="isAnonymous()">
             <select name="role"
                     class="form-select"

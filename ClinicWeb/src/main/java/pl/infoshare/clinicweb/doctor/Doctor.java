@@ -9,6 +9,7 @@ import pl.infoshare.clinicweb.patient.Address;
 import pl.infoshare.clinicweb.patient.Patient;
 import pl.infoshare.clinicweb.patientCard.PatientCard;
 import pl.infoshare.clinicweb.user.entity.PersonDetails;
+import pl.infoshare.clinicweb.user.entity.User;
 
 import java.util.List;
 
@@ -38,4 +39,8 @@ public class Doctor {
 
     @Embedded
     private Address address;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User user;
 }

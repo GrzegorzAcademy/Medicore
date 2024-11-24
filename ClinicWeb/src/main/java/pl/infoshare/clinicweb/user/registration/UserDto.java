@@ -1,6 +1,9 @@
 package pl.infoshare.clinicweb.user.registration;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import pl.infoshare.clinicweb.emailAnnotation.EmailMatcherValidator;
@@ -26,5 +29,14 @@ public class UserDto {
     private String confirmPassword;
     @NotNull(message = "Podaj swoją rolę użytkownika:")
     private Role role;
-    private boolean detailsFormFilled;
+    @NotEmpty(message = "Pole nie może być puste.")
+    private String name;
+    @NotEmpty(message = "Pole nie może być puste.")
+    private String surname;
+    @NotEmpty(message = "Pole nie może być puste.")
+    private String pesel;
+    @NotEmpty(message = "Pole nie może być puste.")
+    private String phoneNumber;
+    private Long doctorId;
+    private Long patientId;
 }

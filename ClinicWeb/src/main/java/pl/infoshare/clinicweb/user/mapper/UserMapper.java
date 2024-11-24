@@ -13,8 +13,13 @@ public class UserMapper {
                 .id(user.getId())
                 .email(user.getEmail())
                 .password(user.getPassword())
+                .name(user.getName())
+                .surname(user.getSurname())
+                .pesel(user.getPesel())
+                .phoneNumber(user.getPhoneNumber())
                 .role(user.getRole())
-                .detailsFormFilled(user.isDetailsFormFilled())
+                .doctorId(user.getDoctor().getId())
+                .patientId(user.getPatient().getId())
                 .build();
     }
 
@@ -24,8 +29,11 @@ public class UserMapper {
                 .id(userDto.getId())
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
+                .name(userDto.getName())
+                .surname(userDto.getSurname())
+                .pesel(userDto.getPesel())
+                .phoneNumber(userDto.getPhoneNumber())
                 .role(userDto.getRole())
-                .detailsFormFilled(userDto.isDetailsFormFilled())
                 .build();
     }
 }
