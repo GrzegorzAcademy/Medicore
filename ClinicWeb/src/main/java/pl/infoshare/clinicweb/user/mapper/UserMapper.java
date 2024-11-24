@@ -14,6 +14,7 @@ public class UserMapper {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .role(user.getRole())
+                .detailsFormFilled(user.isDetailsFormFilled())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class UserMapper {
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
                 .role(userDto.getRole())
+                .detailsFormFilled(userDto.isDetailsFormFilled())
                 .build();
     }
 }

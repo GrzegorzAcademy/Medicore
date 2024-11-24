@@ -26,4 +26,5 @@ public class UserDto {
     private String confirmPassword;
     @NotNull(message = "Podaj swoją rolę użytkownika:")
     private Role role;
+    private boolean detailsFormFilled;
 }
