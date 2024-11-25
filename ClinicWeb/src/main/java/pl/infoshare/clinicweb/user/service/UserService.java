@@ -3,6 +3,8 @@ package pl.infoshare.clinicweb.user.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -116,6 +118,16 @@ public class UserService implements UserDetailsService {
 
         return user.isPresent();
 
+    }
+
+    public UserDto getLoggedInUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        return userRepository.findUserByEmail(email)
+                .map(userMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("User was not found"));
     }
 
 

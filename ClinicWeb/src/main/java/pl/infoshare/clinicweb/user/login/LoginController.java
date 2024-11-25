@@ -7,16 +7,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import pl.infoshare.clinicweb.user.entity.User;
+import pl.infoshare.clinicweb.user.service.UserService;
 
 @Controller
 @AllArgsConstructor
 @Slf4j
 public class LoginController {
 
+    private final UserService userService;
+
     @GetMapping("/")
     public String getIndex() {
 
         return "home/index";
+    }
+
+    @GetMapping("/profile")
+    public String getUserProfile(Model model){
+
+        model.addAttribute("user", userService.getLoggedInUser());
+
+        System.out.println(userService.getLoggedInUser());
+
+        return "user-profile";
     }
 
     @GetMapping("/login")
