@@ -9,7 +9,7 @@
                 <a class="nav-link" aria-current="page" th:href="@{/}">Home</a>
             </li>
 
-            <div sec:authorize="hasAnyRole('ADMIN', 'DOCTOR')">
+            <div sec:authorize="hasAnyRole('ADMIN', 'DOCTOR', 'PATIENT')">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/visit}">Umów się na wizytę</a>
                 </li>
@@ -38,9 +38,9 @@
                         pacjenta</a>
                 </li>
             </div>
-            <div sec:authorize="hasRole('PATIENT')">
+            <div sec:authorize="hasAnyRole('DOCTOR','PATIENT'">
                 <li class="nav-item">
-                    <a class="nav-link enable" th:href="@{patient}" tabindex="-1" aria-disabled="true">Edytuj swoje dane</a>
+                    <a class="nav-link enable" th:href="@{/profile}" tabindex="-1" aria-disabled="true">Twój profil</a>
                 </li>
             </div>
 

@@ -7,6 +7,7 @@ import pl.infoshare.clinicweb.user.entity.PersonDetails;
 public class PatientMapper {
 
     public PatientDto toDto(Patient patient) {
+
         PatientDto patientDto = new PatientDto();
 
         patientDto.setId(patient.getId());

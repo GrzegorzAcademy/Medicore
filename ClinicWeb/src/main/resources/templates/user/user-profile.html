@@ -72,42 +72,56 @@
     </div>
 </nav>
 <form th:action="profile" th:object="${user}">
+
+    <input type="hidden" th:field="*{id}" th:value="${user.id}" />
+    <input type="hidden" th:field="*{patientId}" th:value="${user.patientId}" />
+    <input type="hidden" th:field="*{doctorId}" th:value="${user.doctorId}" />
+
     <div class="container  clearfix">
         <h3> Profil użytkownika </h3>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="form-label">Email:</label>
-                    <input class="form-control" type="text" th:field="*{email}">
+                    <p th:text="*{email}"></p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Imię:</label>
+                    <p th:text="*{name}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nazwisko:</label>
+                    <p th:text="*{surname}"></p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Numer telefonu:</label>
+                    <p th:text="*{phoneNumber}"></p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pesel:</label>
+                    <p th:text="*{pesel}"></p>
 
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Imię :</label>
-                    <input class="form-control" type="text" th:field="*{name}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Nazwisko :</label>
-                    <input class="form-control" type="text" th:field="*{surname}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Numer telefonu :</label>
-                    <input class="form-control" type="text" th:field="*{phoneNumber}">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Pesel :</label>
-                    <input class="form-control" type="text" th:field="*{pesel}">
+                    <label class="form-label">Rola:</label>
+                    <p th:text="*{role.getRoleDescription()}"></p>
 
                 </div>
             </div>
 
+            <div>
+                <a th:href="@{/update-profile(id=${user.id})}"
+                   class="btn btn-primary btn-sm" role="button">Edytuj dane profilu użytkownika</a>
+            </div>
+
             <div sec:authorize="hasRole('PATIENT')">
-                <a th:href="@{/update-patient(id=${user.patient.id})}"
+                <a th:href="@{/update-patient(id=${user.patientId})}"
                    class="btn btn-primary btn-sm" role="button">Pokaż i edytuj dane szczegółowe</a>
             </div>
 
             <div sec:authorize="hasRole('DOCTOR')">
-                <a th:href="@{/update-patient(id=${user.doctor.id})}"
+                <a th:href="@{/update-patient(id=${user.doctorId})}"
                    class="btn btn-primary btn-sm" role="button">Pokaż i edytuj dane szczegółowe</a>
             </div>
 

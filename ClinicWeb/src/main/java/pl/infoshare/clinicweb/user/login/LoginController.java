@@ -27,9 +27,7 @@ public class LoginController {
 
         model.addAttribute("user", userService.getLoggedInUser());
 
-        System.out.println(userService.getLoggedInUser());
-
-        return "user-profile";
+        return "user/user-profile";
     }
 
     @GetMapping("/login")

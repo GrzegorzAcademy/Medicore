@@ -16,8 +16,7 @@ import pl.infoshare.clinicweb.user.service.UserService;
 import java.util.HashMap;
 import java.util.Map;
 
-import static pl.infoshare.clinicweb.user.entity.Role.ADMIN;
-import static pl.infoshare.clinicweb.user.entity.Role.DOCTOR;
+import static pl.infoshare.clinicweb.user.entity.Role.*;
 
 @Configuration
 @RequiredArgsConstructor
@@ -61,7 +60,7 @@ public class SecurityConfig {
                         .requestMatchers("register/doctor").hasRole(ADMIN.name())
                         .requestMatchers("/register").permitAll()
                         .requestMatchers(staticResources).permitAll()
-                        .requestMatchers("/update-patient**",
+                        .requestMatchers(
                                 "/update-doctor**",
                                 "/delete-doctor**",
                                 "/delete-patient**",
@@ -77,6 +76,8 @@ public class SecurityConfig {
                                 "/visits/**",
                                 "/patient")
                         .hasAnyRole(ADMIN.name(), DOCTOR.name())
+                        .requestMatchers("/update-patient**")
+                        .hasAnyRole(ADMIN.name(), PATIENT.name())
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .usernameParameter("email")

@@ -1,6 +1,8 @@
 package pl.infoshare.clinicweb.user.mapper;
 
 import org.springframework.stereotype.Component;
+import pl.infoshare.clinicweb.doctor.Doctor;
+import pl.infoshare.clinicweb.patient.Patient;
 import pl.infoshare.clinicweb.user.entity.User;
 import pl.infoshare.clinicweb.user.registration.UserDto;
 
@@ -25,6 +27,12 @@ public class UserMapper {
 
     public User toEntity(UserDto userDto) {
 
+        Patient patient = new Patient();
+        patient.setId(userDto.getPatientId());
+
+        Doctor doctor = new Doctor();
+        doctor.setId(userDto.getDoctorId());
+
         return User.builder()
                 .id(userDto.getId())
                 .email(userDto.getEmail())
@@ -34,6 +42,8 @@ public class UserMapper {
                 .pesel(userDto.getPesel())
                 .phoneNumber(userDto.getPhoneNumber())
                 .role(userDto.getRole())
+                .patient(patient)
+                .doctor(doctor)
                 .build();
     }
 }

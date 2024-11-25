@@ -1,11 +1,9 @@
 package pl.infoshare.clinicweb.user.registration;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
+import pl.infoshare.clinicweb.annotation.peselDuplicate.PeselDuplicateValidator;
 import pl.infoshare.clinicweb.emailAnnotation.EmailMatcherValidator;
 import pl.infoshare.clinicweb.passwordAnnotation.PasswordMatcherValidator;
 import pl.infoshare.clinicweb.user.entity.Role;
@@ -30,12 +28,17 @@ public class UserDto {
     @NotNull(message = "Podaj swoją rolę użytkownika:")
     private Role role;
     @NotEmpty(message = "Pole nie może być puste.")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Pole musi składać się z samych liter")
     private String name;
     @NotEmpty(message = "Pole nie może być puste.")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Pole musi składać się z samych liter")
     private String surname;
-    @NotEmpty(message = "Pole nie może być puste.")
+    @NotEmpty(message = "Pole nie może być puste")
+    @Pattern(regexp = "[0-9]{11}", message = "Pole musi zawierać 11 cyfr. ")
+    @PeselDuplicateValidator
     private String pesel;
-    @NotEmpty(message = "Pole nie może być puste.")
+    @NotEmpty(message = "Pole nie może być puste")
+    @Pattern(regexp = "^\\d{9}$", message = "Pole musi składać się z 9 cyfr.")
     private String phoneNumber;
     private Long doctorId;
     private Long patientId;
