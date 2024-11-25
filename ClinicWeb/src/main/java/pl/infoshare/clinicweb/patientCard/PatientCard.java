@@ -2,6 +2,8 @@ package pl.infoshare.clinicweb.patientCard;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import pl.infoshare.clinicweb.doctor.Doctor;
 import pl.infoshare.clinicweb.patient.Patient;
 
@@ -15,6 +17,7 @@ public class PatientCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Patient patient;
     @ManyToOne
     private Doctor doctor;
