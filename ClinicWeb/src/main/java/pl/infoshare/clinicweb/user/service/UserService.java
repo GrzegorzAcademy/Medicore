@@ -1,5 +1,6 @@
 package pl.infoshare.clinicweb.user.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,13 +53,12 @@ public class UserService implements UserDetailsService {
     }
 
 
+    @Transactional
     public void saveUser(UserDto user) {
 
 
         var personDetails = new PersonDetails();
         var appUser = userMapper.toEntity(user);
-        userRepository.save(appUser);
-
 
         switch (user.getRole()) {
 
@@ -71,9 +71,9 @@ public class UserService implements UserDetailsService {
                 personDetails.setPesel(user.getPesel());
                 personDetails.setPhoneNumber(user.getPhoneNumber());
 
-                patient.setUser(appUser);
                 patientService.addPatient(patient);
-
+                appUser.setPatient(patient);
+                patient.setUser(appUser);
                 break;
 
             case DOCTOR:
@@ -86,12 +86,15 @@ public class UserService implements UserDetailsService {
                 personDetails.setPesel(user.getPesel());
                 personDetails.setPhoneNumber(user.getPhoneNumber());
 
-                doctor.setUser(appUser);
                 doctorService.addDoctor(doctor);
+                appUser.setDoctor(doctor);
+                doctor.setUser(appUser);
 
                 break;
 
         }
+
+        userRepository.save(appUser);
 
         log.info("User patient saved with Email: {}", appUser.getEmail());
     }

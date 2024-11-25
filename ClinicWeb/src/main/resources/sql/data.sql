@@ -108,11 +108,8 @@ INSERT INTO patients_cards (date_of_visit, doctor_id, id, patient_id, diagnosis,
 
 
 INSERT INTO users(EMAIL, PASSWORD, ROLE, NAME, SURNAME, PHONE_NUMBER, PESEL) VALUES
-("malwina.kozak@gmail.com", "proste1234", 'PATIENT', 'Malwina', 'Kozak', '765-444-555', '99010234567',);
---("damian.pered@onet.pl", "Puszek123!", 'DOCTOR'),
---("melania.halinowska@wp.pl", "trampek123", 'PATIENT'),
---("danuta.kopec@onet.pl", "Puszek123!", 'DOCTOR'),
---("krystian.krawiec@onet.pl", "Puszek123!", 'DOCTOR'),
---("admin@onet.pl", "admin", 'ADMIN');
+("malwina.kozak@gmail.com", "proste1234", 'PATIENT', 'Malwina', 'Kozak', '765-444-555', '78010575162'),
+("damian.pered@onet.pl", "Puszek123!", 'DOCTOR', 'Damian', 'Pered', '999-334-334', "69062736753"),
+("admin@onet.pl", "admin", 'ADMIN', 'Adam', 'Polanski', '443222332', '05240217528');
 
 

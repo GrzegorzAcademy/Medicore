@@ -3,8 +3,7 @@ package pl.infoshare.clinicweb.user.entity;
 public enum Role {
     PATIENT("Pacjent"),
     DOCTOR("Lekarz"),
-    ADMIN("Admin"),
-    REGISTRATION_IN_PROGRESS("Rejestracja w toku");
+    ADMIN("Admin");
 
     private final String roleDescription;
 

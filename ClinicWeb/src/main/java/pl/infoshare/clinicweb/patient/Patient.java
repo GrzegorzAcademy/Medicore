@@ -38,6 +38,6 @@ public class Patient {
     private Address address;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
 }

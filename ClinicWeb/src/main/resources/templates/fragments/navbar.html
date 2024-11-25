@@ -38,6 +38,11 @@
                         pacjenta</a>
                 </li>
             </div>
+            <div sec:authorize="hasRole('PATIENT')">
+                <li class="nav-item">
+                    <a class="nav-link enable" th:href="@{patient}" tabindex="-1" aria-disabled="true">Edytuj swoje dane</a>
+                </li>
+            </div>
 
             <div sec:authorize="hasRole('ADMIN')">
                 <li class="nav-item">
