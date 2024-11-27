@@ -130,8 +130,7 @@ public class VisitController {
 
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
+                    .boxed().toList();
             model.addAttribute("pageNumbers", pageNumbers);
         }
 

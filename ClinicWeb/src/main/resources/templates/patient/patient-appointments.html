@@ -51,6 +51,13 @@
                 </tbody>
             </table>
         </div>
+        <div th:if="${successMessage}" class="mt-4 alert alert-success" role="alert">
+            <p th:text="${successMessage}">Sukces</p>
+        </div>
+
+        <div th:if="${error}" class="mt-4 alert alert-danger" role="alert">
+            <p th:text="${error}">Błąd</p>
+        </div>
         <footer>
             <div th:replace="~{fragments/footer :: footer}"></div>
         </footer>

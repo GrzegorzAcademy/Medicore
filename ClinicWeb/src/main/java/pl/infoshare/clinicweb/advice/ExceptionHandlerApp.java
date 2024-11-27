@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.infoshare.clinicweb.exception.validation.TimeSlotUnavailableException;
 
+
 import java.util.HashMap;
 import java.util.Map;
 

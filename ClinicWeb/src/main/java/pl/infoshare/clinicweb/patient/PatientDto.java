@@ -1,9 +1,15 @@
 package pl.infoshare.clinicweb.patient;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class PatientDto {
 
     private Long id;

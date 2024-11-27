@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.infoshare.clinicweb.visit.VisitDto;
 import pl.infoshare.clinicweb.visit.VisitService;
 
@@ -69,14 +70,18 @@ public class PatientCardController {
     public String savePatientCard(
             @Valid @ModelAttribute("patientCard") PatientCardDTO patientCardDTO,
             BindingResult bindingResult,
+            RedirectAttributes redirectAttributes,
             Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", "Błąd zapisu karty pacjenta");
+            return "patient-card";
+        }
 
         PatientCard patientCard = patientCardMapper.toEntity(patientCardDTO);
 
         patientCardService.patientCardSave(patientCard);
-
-        model.addAttribute("successMessage", "Karta pacjenta została pomyślnie zapisana!");
-
+        redirectAttributes.addFlashAttribute("successMessage", "Karta pacjenta została pomyślnie zapisana!");
         return "patient/patient-appointments";
     }
 

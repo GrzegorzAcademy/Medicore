@@ -1,35 +1,33 @@
 package pl.infoshare.clinicweb.doctor;
 
+import lombok.Builder;
 import org.springframework.stereotype.Component;
 import pl.infoshare.clinicweb.user.entity.PersonDetails;
 
 
 @Component
+@Builder
 public class DoctorMapper {
 
     public DoctorDto toDto(Doctor doctor) {
-
-        DoctorDto doctorDto = new DoctorDto();
-
-        doctorDto.setId(doctor.getId());
-        doctorDto.setName(doctor.getDetails().getName());
-        doctorDto.setSurname(doctor.getDetails().getSurname());
-        doctorDto.setSpecialization(doctor.getSpecialization());
-        return doctorDto;
+        return DoctorDto.builder()
+                .name(doctor.getDetails().getName())
+                .id(doctor.getId())
+                .surname(doctor.getDetails().getSurname())
+                .specialization(doctor.getSpecialization())
+                .build();
 
     }
 
 
     public Doctor toEntity(DoctorDto doctorDto) {
-
-        Doctor doctor = new Doctor();
-
-        doctor.setId(doctorDto.getId());
-        doctor.setDetails(new PersonDetails());
-        doctor.getDetails().setName(doctorDto.getName());
-        doctor.getDetails().setSurname(doctorDto.getSurname());
-        doctor.setSpecialization(doctorDto.getSpecialization());
-        return doctor;
-
+        return Doctor.builder()
+                .id(doctorDto.getId())
+                .details(PersonDetails.builder()
+                        .name(doctorDto.getName())
+                        .surname(doctorDto.getSurname())
+                        .build())
+                .specialization(doctorDto.getSpecialization())
+                .build();
     }
 }

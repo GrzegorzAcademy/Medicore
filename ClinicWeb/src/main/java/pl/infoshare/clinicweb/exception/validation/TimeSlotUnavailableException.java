@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class TimeSlotUnavailableException extends RuntimeException {
 
-    private static final String MSG = "Wybrana termin jest już zajęty: %s.";
+    private static final String MSG = "Wybrany termin jest już zajęty: %s.";
 
     public TimeSlotUnavailableException(LocalDateTime localDateTime) {
         super(String.format(MSG, localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));

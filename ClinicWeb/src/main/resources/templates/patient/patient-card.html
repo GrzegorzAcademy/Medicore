@@ -78,11 +78,19 @@
                 <textarea class="form-control form-control-sm" id="treatment" th:field="*{treatment}" rows="2" placeholder="Wprowadź zalecane leczenie"></textarea>
             </div>
             <div class="col-auto">
-                <a th:href="@{/patient-appointments(id=${patientCard.patientId})}" class="btn btn-primary" role="button"
-                   aria-pressed="true">
-                    Zapisz
-                </a>
+                <button type="submit" class="btn btn-primary">
+                    <a th:href="@{/patient-appointments(id=${patientCard.patientId})}"></a>
+<!--                    <a th:href="@{/patient-appointments}"></a>-->
+                    Zapisz</button>
             </div>
+            <div th:if="${successMessage}" class="mt-4 alert alert-success" role="alert">
+                <p th:text="${successMessage}">Sukces</p>
+            </div>
+
+            <div th:if="${error}" class="mt-4 alert alert-danger" role="alert">
+                <p th:text="${error}">Błąd</p>
+            </div>
+
         </form>
     </div>
 </div>

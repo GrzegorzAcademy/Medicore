@@ -15,6 +15,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "visit")
+
 public class Visit {
 
     @Id
