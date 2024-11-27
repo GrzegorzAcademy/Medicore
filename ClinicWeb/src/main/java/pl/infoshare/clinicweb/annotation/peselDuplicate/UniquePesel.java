@@ -9,7 +9,7 @@ import pl.infoshare.clinicweb.patient.PatientService;
 
 @Component
 @RequiredArgsConstructor
-public final class PeselDuplicate implements ConstraintValidator<PeselDuplicateValidator, String> {
+public final class UniquePesel implements ConstraintValidator<UniquePeselValidator, String> {
 
 
     private final PatientService patientService;
@@ -17,7 +17,7 @@ public final class PeselDuplicate implements ConstraintValidator<PeselDuplicateV
 
 
     @Override
-    public void initialize(PeselDuplicateValidator constraintAnnotation) {
+    public void initialize(UniquePeselValidator constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
@@ -27,7 +27,6 @@ public final class PeselDuplicate implements ConstraintValidator<PeselDuplicateV
         if (pesel == null || pesel.isEmpty()) {
             return true;
         }
-
 
         return patientService.existsByPesel(pesel) || doctorService.existsByPesel(pesel) ? false : true;
     }

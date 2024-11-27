@@ -51,9 +51,7 @@ public class PatientController {
 
         model.addAttribute("doctors", doctors);
 
-        if (detailsBinding.hasErrors() || addressBinding.hasErrors() || !Utils.hasPeselCorrectDigits(pesel)) {
-
-            model.addAttribute("peselError", "Wprowadzony numer PESEL jest niepoprawny");
+        if (detailsBinding.hasErrors() || addressBinding.hasErrors()) {
 
             return "patient/patient";
 

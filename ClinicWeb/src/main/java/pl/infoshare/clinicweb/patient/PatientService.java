@@ -16,7 +16,6 @@ import pl.infoshare.clinicweb.visit.VisitRepository;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -57,7 +56,7 @@ public class PatientService {
         return patientRepository.findAll()
                 .stream()
                 .map(patientMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Page<PatientDto> findPage(int pageNumber) {
