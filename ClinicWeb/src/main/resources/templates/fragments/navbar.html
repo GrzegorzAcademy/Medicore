@@ -38,9 +38,9 @@
                         pacjenta</a>
                 </li>
             </div>
-            <div sec:authorize="hasRole('PATIENT')">
+            <div sec:authorize="hasAnyRole('PATIENT', 'DOCTOR')">
                 <li class="nav-item">
-                    <a class="nav-link enable" th:href="@{patient}" tabindex="-1" aria-disabled="true">Edytuj swoje dane</a>
+                    <a class="nav-link enable" th:href="@{profile}" tabindex="-1" aria-disabled="true">Twoje dane</a>
                 </li>
             </div>
 

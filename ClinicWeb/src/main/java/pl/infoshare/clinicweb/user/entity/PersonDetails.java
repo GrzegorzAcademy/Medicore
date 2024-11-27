@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import pl.infoshare.clinicweb.annotation.peselDuplicate.UniquePeselValidator;
 import lombok.NoArgsConstructor;
-import pl.infoshare.clinicweb.annotation.peselDuplicate.PeselDuplicateValidator;
 import java.time.LocalDate;
 
 @Data
