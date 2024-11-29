@@ -16,8 +16,7 @@ import pl.infoshare.clinicweb.user.service.UserService;
 import java.util.HashMap;
 import java.util.Map;
 
-import static pl.infoshare.clinicweb.user.entity.Role.ADMIN;
-import static pl.infoshare.clinicweb.user.entity.Role.DOCTOR;
+import static pl.infoshare.clinicweb.user.entity.Role.*;
 
 @Configuration
 @RequiredArgsConstructor
@@ -56,12 +55,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("register/admin").hasRole(ADMIN.name())
-                        .requestMatchers("register/doctor").hasRole(ADMIN.name())
-                        .requestMatchers("/register").permitAll()
+                        .requestMatchers("/", "/register").permitAll()
                         .requestMatchers(staticResources).permitAll()
-                        .requestMatchers("/update-patient**",
+                        .requestMatchers("register/admin**",
                                 "/update-doctor**",
                                 "/delete-doctor**",
                                 "/delete-patient**",
@@ -75,8 +71,10 @@ public class SecurityConfig {
                                 "/doctors/**",
                                 "/patients/**",
                                 "/visits/**",
-                                "/patient")
+                                "/patient",
+                                "/patient-appointments")
                         .hasAnyRole(ADMIN.name(), DOCTOR.name())
+                        .requestMatchers("/update-patient").hasAnyRole(ADMIN.name(), PATIENT.name())
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .usernameParameter("email")

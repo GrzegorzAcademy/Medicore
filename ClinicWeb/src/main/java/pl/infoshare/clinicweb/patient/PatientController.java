@@ -125,6 +125,7 @@ public class PatientController {
     public String editPatient(@ModelAttribute("patient") PatientDto patient,
                               Model model, Address address, RedirectAttributes redirectAttributes) {
 
+
         model.addAttribute("patient", patient);
         model.addAttribute("address", address);
 

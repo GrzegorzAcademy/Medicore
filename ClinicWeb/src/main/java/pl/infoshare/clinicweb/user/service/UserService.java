@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import pl.infoshare.clinicweb.doctor.Doctor;
 import pl.infoshare.clinicweb.doctor.DoctorRepository;
 import pl.infoshare.clinicweb.doctor.DoctorService;
+import pl.infoshare.clinicweb.patient.Address;
 import pl.infoshare.clinicweb.patient.Patient;
 import pl.infoshare.clinicweb.patient.PatientRepository;
 import pl.infoshare.clinicweb.patient.PatientService;
@@ -30,8 +31,6 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService implements UserDetailsService {
-    private final DoctorRepository doctorRepository;
-    private final PatientRepository patientRepository;
 
     private final UserRepository userRepository;
     private final PatientService patientService;
@@ -61,11 +60,15 @@ public class UserService implements UserDetailsService {
 
         var personDetails = new PersonDetails();
         var appUser = userMapper.toEntity(user);
+        var address = new Address();
+        address.setCountry("Polska");
 
         switch (user.getRole()) {
 
             case PATIENT:
                 var patient = new Patient();
+                patient.setAddress(address);
+
 
                 patient.setPersonDetails(personDetails);
                 personDetails.setName(user.getName());
@@ -81,6 +84,7 @@ public class UserService implements UserDetailsService {
             case DOCTOR:
 
                 var doctor = new Doctor();
+                doctor.setAddress(address);
 
                 doctor.setDetails(personDetails);
                 personDetails.setName(user.getName());

@@ -42,5 +42,5 @@ public class Doctor {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 }
