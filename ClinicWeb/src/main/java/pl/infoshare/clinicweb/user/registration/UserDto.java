@@ -1,7 +1,6 @@
 package pl.infoshare.clinicweb.user.registration;
 
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Data;
 import pl.infoshare.clinicweb.annotation.peselDuplicate.UniquePeselValidator;
 import pl.infoshare.clinicweb.emailAnnotation.EmailMatcherValidator;
@@ -12,7 +11,6 @@ import pl.infoshare.clinicweb.user.entity.Role;
 @Data
 @PasswordMatcherValidator
 @EmailMatcherValidator
-@Builder
 public class UserDto {
 
     private Long id;
@@ -39,4 +37,5 @@ public class UserDto {
     private String phoneNumber;
     private Long doctorId;
     private Long patientId;
+
 }

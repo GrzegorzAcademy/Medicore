@@ -54,24 +54,25 @@ public class RegistrationController {
 
         log.info("New user registration form was requested.");
 
-        return "user/registry";
+        return "user/registry-admin";
     }
 
     @PostMapping("/register-admin")
-    public String userCreatedByAdmin(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String userCreatedByAdmin(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult,
+                                     Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("user", user);
             log.info("Validation error occured while registering user.");
-            return "user/registry";
+            return "user/registry-admin";
         }
 
         userService.saveUser(user);
         log.info("User was successfully registered by Admin {}", user.getRole(), user.getEmail());
         redirectAttributes.addFlashAttribute("success", "Pomyślnie zarejestrowano użytkownika pacjenta.");
 
-        return "redirect:/user/registry";
+        return "redirect:/user/registry-admin";
     }
 
 

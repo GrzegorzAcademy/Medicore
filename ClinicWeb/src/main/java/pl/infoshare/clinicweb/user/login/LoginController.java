@@ -22,8 +22,17 @@ public class LoginController {
         return "home/index";
     }
 
+
+    @GetMapping("/update-profile")
+    public String updateProfile(Model model) {
+
+        model.addAttribute("user", userService.getLoggedInUser());
+
+        return "user/update-profile";
+    }
+
     @GetMapping("/profile")
-    public String getUserProfile(Model model){
+    public String getUserProfile(Model model) {
 
         model.addAttribute("user", userService.getLoggedInUser());
 

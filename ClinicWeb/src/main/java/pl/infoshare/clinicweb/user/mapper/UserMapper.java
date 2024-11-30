@@ -11,39 +11,63 @@ public class UserMapper {
 
     public UserDto toDto(User user) {
 
-        return UserDto.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .password(user.getPassword())
-                .name(user.getName())
-                .surname(user.getSurname())
-                .pesel(user.getPesel())
-                .phoneNumber(user.getPhoneNumber())
-                .role(user.getRole())
-                .doctorId(user.getDoctor().getId())
-                .patientId(user.getPatient().getId())
-                .build();
+        var userDto = new UserDto();
+
+        switch(user.getRole()) {
+
+            case  PATIENT:
+
+                userDto.setPatientId(user.getPatient().getId());
+                break;
+
+            case DOCTOR:
+                userDto.setDoctorId(user.getDoctor().getId());
+                break;
+        }
+
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setSurname(user.getSurname());
+        userDto.setEmail(user.getEmail());
+        userDto.setRole(user.getRole());
+        userDto.setPassword(user.getPassword());
+        userDto.setPhoneNumber(user.getPhoneNumber());
+        userDto.setPesel(user.getPesel());
+
+        return userDto;
+
     }
 
     public User toEntity(UserDto userDto) {
 
-        Patient patient = new Patient();
-        patient.setId(userDto.getPatientId());
+        var user = new User();
 
-        Doctor doctor = new Doctor();
-        doctor.setId(userDto.getDoctorId());
+        switch(userDto.getRole()) {
 
-        return User.builder()
-                .id(userDto.getId())
-                .email(userDto.getEmail())
-                .password(userDto.getPassword())
-                .name(userDto.getName())
-                .surname(userDto.getSurname())
-                .pesel(userDto.getPesel())
-                .phoneNumber(userDto.getPhoneNumber())
-                .role(userDto.getRole())
-                .patient(patient)
-                .doctor(doctor)
-                .build();
+            case  PATIENT:
+
+                var patient = new Patient();
+                patient.setId(userDto.getPatientId());
+                user.setPatient(patient);
+                break;
+
+            case DOCTOR:
+                var doctor = new Doctor();
+                doctor.setId(userDto.getDoctorId());
+                user.setDoctor(doctor);
+                break;
+        }
+
+        user.setId(userDto.getId());
+        user.setName(userDto.getName());
+        user.setSurname(userDto.getSurname());
+        user.setEmail(userDto.getEmail());
+        user.setRole(userDto.getRole());
+        user.setPassword(userDto.getPassword());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setPesel(user.getPesel());
+
+        return user;
+
     }
 }

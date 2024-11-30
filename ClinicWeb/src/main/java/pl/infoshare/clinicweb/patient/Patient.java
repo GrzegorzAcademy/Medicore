@@ -34,7 +34,7 @@ public class Patient {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private Set<PatientCard> patientCards = new HashSet<>();
 
     @ManyToOne
@@ -43,7 +43,7 @@ public class Patient {
     @Embedded
     private Address address;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     User user;
 }

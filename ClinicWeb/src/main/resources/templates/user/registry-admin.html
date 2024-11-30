@@ -159,20 +159,18 @@
                    th:errors="${user.phoneNumber}">Phone error</p>
             </div>
 
-            <div sec:authorize="isAnonymous()">
+            <div sec:authorize="hasRole('ADMIN')">
                 <select name="role"
                         class="form-select"
                         required
-                        oninvalid="setCustomValidity('Rejestruje się jako')"
+                        oninvalid="setCustomValidity('Zarejestruj jako')"
                         oninput="setCustomValidity('')">
 
                     <option th:each="role : ${T(pl.infoshare.clinicweb.user.entity.Role).values()}"
-                            th:if="${role.name == 'PATIENT'}"
-                            th:value="'PATIENT'"
+                            th:value="${role}"
                             th:text="${role.getRoleDescription()}"></option>
                 </select>
             </div>
-
             <div th:align="center" th:if="${success}" class="mt-4 alert alert-success" role="alert">
                 <p th:text="${success}">Sukces</p>
             </div>

@@ -10,11 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.infoshare.clinicweb.doctor.Doctor;
-import pl.infoshare.clinicweb.doctor.DoctorRepository;
 import pl.infoshare.clinicweb.doctor.DoctorService;
 import pl.infoshare.clinicweb.patient.Address;
 import pl.infoshare.clinicweb.patient.Patient;
-import pl.infoshare.clinicweb.patient.PatientRepository;
 import pl.infoshare.clinicweb.patient.PatientService;
 import pl.infoshare.clinicweb.user.entity.PersonDetails;
 import pl.infoshare.clinicweb.user.entity.User;
@@ -57,18 +55,19 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void saveUser(UserDto user) {
 
+        var appUser = userMapper.toEntity(user);
 
         var personDetails = new PersonDetails();
-        var appUser = userMapper.toEntity(user);
         var address = new Address();
         address.setCountry("Polska");
+
 
         switch (user.getRole()) {
 
             case PATIENT:
                 var patient = new Patient();
-                patient.setAddress(address);
 
+                patient.setAddress(address);
 
                 patient.setPersonDetails(personDetails);
                 personDetails.setName(user.getName());
@@ -76,8 +75,9 @@ public class UserService implements UserDetailsService {
                 personDetails.setPesel(user.getPesel());
                 personDetails.setPhoneNumber(user.getPhoneNumber());
 
-                patientService.addPatient(patient);
                 appUser.setPatient(patient);
+                patientService.addPatient(patient);
+
                 patient.setUser(appUser);
                 break;
 

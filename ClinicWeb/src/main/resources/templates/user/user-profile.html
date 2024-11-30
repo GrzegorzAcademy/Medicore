@@ -60,8 +60,6 @@
 </nav>
 <form th:action="profile" th:object="${user}">
     <input type="hidden" th:field="*{id}" th:value="${user.id}"/>
-    <input type="hidden" th:field="*{patientId}" th:value="${user.patientId}"/>
-    <input type="hidden" th:field="*{doctorId}" th:value="${user.doctorId}"/>
 
     <div class="container  clearfix">
         <h3> Profil użytkownika </h3>
@@ -96,17 +94,8 @@
             </div>
 
             <div>
-                <a th:href="@{/update-profile(id=${user.id})}"
+                <a th:href="@{/update-profile}"
                    class="btn btn-primary btn-sm" role="button">Edytuj dane profilu użytkownika</a>
-            </div>
-            <div sec:authorize="hasRole('PATIENT')">
-                <a th:href="@{/update-patient(id=${user.patientId})}"
-                   class="btn btn-primary btn-sm" role="button">Pokaż i edytuj dane szczegółowe</a>
-            </div>
-
-            <div sec:authorize="hasRole('DOCTOR')">
-                <a th:href="@{/update-patient(id=${user.doctorId})}"
-                   class="btn btn-primary btn-sm" role="button">Pokaż i edytuj dane szczegółowe</a>
             </div>
         </div>
     </div>
