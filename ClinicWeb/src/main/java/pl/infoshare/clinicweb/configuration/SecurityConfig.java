@@ -64,6 +64,7 @@ public class SecurityConfig {
                                 "/doctor")
                         .hasRole(ADMIN.name())
                         .requestMatchers("/search-doctor**",
+                                "/update-patient**",
                                 "/search-patient**",
                                 "/search**",
                                 "/visit",
@@ -72,9 +73,9 @@ public class SecurityConfig {
                                 "/patients/**",
                                 "/visits/**",
                                 "/patient",
-                                "/patient-appointments")
+                                "/patient-appointments"
+                        )
                         .hasAnyRole(ADMIN.name(), DOCTOR.name())
-                        .requestMatchers("/update-patient").hasAnyRole(ADMIN.name(), PATIENT.name())
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .usernameParameter("email")
