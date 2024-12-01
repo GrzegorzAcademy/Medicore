@@ -65,7 +65,7 @@ public class UserMapper {
         user.setRole(userDto.getRole());
         user.setPassword(userDto.getPassword());
         user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setPesel(user.getPesel());
+        user.setPesel(userDto.getPesel());
 
         return user;
 

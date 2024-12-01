@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.infoshare.clinicweb.doctor.Doctor;
 import pl.infoshare.clinicweb.doctor.DoctorService;
+import pl.infoshare.clinicweb.doctor.Specialization;
 import pl.infoshare.clinicweb.patient.Address;
 import pl.infoshare.clinicweb.patient.Patient;
 import pl.infoshare.clinicweb.patient.PatientService;
@@ -85,6 +86,7 @@ public class UserService implements UserDetailsService {
 
                 var doctor = new Doctor();
                 doctor.setAddress(address);
+                doctor.setSpecialization(Specialization.NOT_CHOSEN);
 
                 doctor.setDetails(personDetails);
                 personDetails.setName(user.getName());
@@ -112,7 +114,8 @@ public class UserService implements UserDetailsService {
 
     public User findUserByEmail(final String email) {
 
-        return userRepository.findUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(format("User not found with email: %s", email)));
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(format("User not found with email: %s", email)));
 
     }
 
