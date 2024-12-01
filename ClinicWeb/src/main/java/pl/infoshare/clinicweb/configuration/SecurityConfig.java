@@ -59,6 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(staticResources).permitAll()
                         .requestMatchers("register/admin**",
                                 "/update-doctor**",
+                                "/update-patient",
                                 "/delete-doctor**",
                                 "/delete-patient**",
                                 "/doctor")
@@ -74,7 +75,6 @@ public class SecurityConfig {
                                 "/patient",
                                 "/patient-appointments")
                         .hasAnyRole(ADMIN.name(), DOCTOR.name())
-                        .requestMatchers("/update-patient").hasAnyRole(ADMIN.name(), PATIENT.name())
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .usernameParameter("email")
