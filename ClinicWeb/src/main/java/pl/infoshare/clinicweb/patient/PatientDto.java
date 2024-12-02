@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class PatientDto {
 
     private Long id;
+    private Long userId;
     @NotBlank(message = "Pole nie może być puste")
     private String name;
     @NotBlank(message = "Pole nie może być puste")

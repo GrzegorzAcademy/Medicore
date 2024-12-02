@@ -31,6 +31,7 @@
                 </li>
             </div>
 
+
             <div sec:authorize="hasAnyRole('ADMIN', 'DOCTOR')">
                 <li class="nav-item">
                     <a class="nav-link enable" th:href="@{patient}" tabindex="-1" aria-disabled="true">Utwórz konto
@@ -55,8 +56,13 @@
             <div>
                 <li class="nav-item">
                     <span sec:authorize="hasRole('ADMIN')">
-                            <a class="nav-link enable" th:href="@{/register}" tabindex="-1" aria-disabled="true">Tworzenie użytkownika</a>
+                            <a class="nav-link enable" th:href="@{/register-admin}" tabindex="-1" aria-disabled="true">Tworzenie użytkownika</a>
                     </span>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link enable" th:href="@{profile}" tabindex="-1" aria-disabled="true">Twoje dane</a>
+                </li>
             </div>
             <div>
                 <li class="nav-item">

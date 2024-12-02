@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.infoshare.clinicweb.patientCard.PatientCardRepository;
 import pl.infoshare.clinicweb.user.entity.PersonDetails;
+import pl.infoshare.clinicweb.user.repository.UserRepository;
 import pl.infoshare.clinicweb.visit.Visit;
 import pl.infoshare.clinicweb.visit.VisitRepository;
 
@@ -26,6 +27,7 @@ public class PatientService {
     private final PatientMapper patientMapper;
     private final VisitRepository visitRepository;
     private final PatientCardRepository patientCardRepository;
+    private final UserRepository userRepository;
 
 
     public void addPatient(Patient patient) {
@@ -80,12 +82,17 @@ public class PatientService {
 
     @Transactional
     public void deletePatient(Long id) {
+
+        var patient = patientRepository.findById(id).get();
+
         List<Visit> visits = visitRepository.findAllByPatientId(id);
         if (!visits.isEmpty()) {
             visitRepository.deleteAll(visits);
         }
         patientCardRepository.findById(id).ifPresent(patientCardRepository::delete);
         patientRepository.findById(id).ifPresent(patientRepository::delete);
+
+
     }
 
     public void setPatientAttributes(Patient patient, PersonDetails personDetails,

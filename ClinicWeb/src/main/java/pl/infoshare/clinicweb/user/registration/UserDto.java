@@ -1,8 +1,8 @@
 package pl.infoshare.clinicweb.user.registration;
 
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Data;
+import pl.infoshare.clinicweb.annotation.peselDuplicate.UniquePeselValidator;
 import pl.infoshare.clinicweb.emailAnnotation.EmailMatcherValidator;
 import pl.infoshare.clinicweb.passwordAnnotation.PasswordMatcherValidator;
 import pl.infoshare.clinicweb.user.entity.Role;
@@ -11,7 +11,6 @@ import pl.infoshare.clinicweb.user.entity.Role;
 @Data
 @PasswordMatcherValidator
 @EmailMatcherValidator
-@Builder
 public class UserDto {
 
     private Long id;
@@ -26,4 +25,17 @@ public class UserDto {
     private String confirmPassword;
     @NotNull(message = "Podaj swoją rolę użytkownika:")
     private Role role;
+    @NotEmpty(message = "Pole nie może być puste.")
+    private String name;
+    @NotEmpty(message = "Pole nie może być puste.")
+    private String surname;
+    @NotEmpty(message = "Pole nie może być puste.")
+    @UniquePeselValidator
+    @Pattern(regexp = "[0-9]{11}", message = "Pole musi zawierać 11 cyfr. ")
+    private String pesel;
+    @NotEmpty(message = "Pole nie może być puste.")
+    private String phoneNumber;
+    private Long doctorId;
+    private Long patientId;
+
 }

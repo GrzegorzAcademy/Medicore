@@ -84,7 +84,7 @@ public class PatientController {
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
-                    .collect(Collectors.toList());
+                    .toList();
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
@@ -124,6 +124,7 @@ public class PatientController {
     @PostMapping("/update-patient")
     public String editPatient(@ModelAttribute("patient") PatientDto patient,
                               Model model, Address address, RedirectAttributes redirectAttributes) {
+
 
         model.addAttribute("patient", patient);
         model.addAttribute("address", address);
