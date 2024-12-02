@@ -1,22 +1,12 @@
 html, body {
     height: 100%;
     margin: 0;
-}
-
-body {
     display: flex;
     flex-direction: column;
-    background-image: url('/pxfuel.jpg');
+    background-image: url('/images/pxfuel.jpg');
     background-size: cover;
     background-position: center;
     min-height: 100vh;
-
-}
-
-
-body {
-    display: flex;
-    flex-direction: column;
 }
 
 .content {
@@ -45,9 +35,11 @@ body {
 .navbar-nav .nav-link {
     color: white;
 
-    :hover none;
+    :hover none
+;
 
 }
+
 footer {
     background-color: black;
     padding: 10px 0;
@@ -75,6 +67,7 @@ footer {
 .navbar-nav .nav-link:hover {
     color: red;
 }
+
 .login-card {
     background: rgba(255, 255, 255, 0.9);
     padding: 40px;
@@ -89,4 +82,16 @@ footer {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
+}
+
+.table {
+    font-size: 14px;
+}
+
+.table-striped > tbody > tr {
+    line-height: 1.2;
+}
+
+.table td, .table th {
+    padding: 8px;
 }

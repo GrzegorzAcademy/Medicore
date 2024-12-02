@@ -2,6 +2,7 @@ package pl.infoshare.clinicweb.patient;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +17,11 @@ import pl.infoshare.clinicweb.user.entity.PersonDetails;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Controller
+@Slf4j
 public class PatientController {
 
     private final PatientService patientService;
@@ -30,15 +31,15 @@ public class PatientController {
 
     @GetMapping("/patient")
     public String patientForm(Model model) {
-
-        List<DoctorDto> doctors = doctorService.findAllDoctors();
+        log.info("Patient creation form retrieved.");
 
         model.addAttribute("personDetails", new PersonDetails());
         model.addAttribute("address", new Address());
-        model.addAttribute("doctors", doctors);
+        model.addAttribute("doctors", doctorService.findAllDoctors());
 
         return "patient/patient";
     }
+
 
     @PostMapping("/patient")
     public String patientFormSubmission(@ModelAttribute Patient patient,
@@ -70,33 +71,23 @@ public class PatientController {
 
     @GetMapping(value = "/patients")
     public String listPatients(Model model, @RequestParam(value = "pesel", required = false) String pesel,
-                               @RequestParam(value = "page") @ModelAttribute Optional<Integer> page) {
-
-
+                               @RequestParam(value = "page", required = false) Optional<Integer> page) {
         int currentPage = page.orElse(1);
+        log.info("Patient list retrieved. Page: {},", currentPage);
 
         Page<PatientDto> patientPage = patientService.findPage(currentPage);
-
-        long totalElements = patientPage.getTotalElements();
         int totalPages = patientPage.getTotalPages();
-        List<PatientDto> patients = patientPage.getContent();
-
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-
-        if (totalPages == 0) {
-            totalPages = 1;
-        }
 
         model.addAttribute("pesel", pesel);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("totalElements", totalElements);
-        model.addAttribute("listPatient", patients);
+        model.addAttribute("totalElements", patientPage.getTotalElements());
+        model.addAttribute("listPatient", patientPage.getContent());
+
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().toList();
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
 
         return "patient/patients";
     }
@@ -123,15 +114,20 @@ public class PatientController {
 
     @PostMapping("/update-patient")
     public String editPatient(@ModelAttribute("patient") PatientDto patient,
-                              Model model, Address address, RedirectAttributes redirectAttributes) {
+                              Model model, Address address, RedirectAttributes redirectAttributes, PersonDetails personDetails) {
+        log.info("Started updating patient data: {}", patient.getId());
+        try {
+            patientService.updatePatient(patient, address, personDetails);
+            redirectAttributes.addFlashAttribute("success", "Zaktualizowano dane pacjenta.");
+            log.info("Patient data has been updated: {}", patient.getId());
+        } catch (Exception e) {
+            log.error("An error occurred while updating patient data: {}", patient.getId(), e);
+            redirectAttributes.addFlashAttribute("error", "Wystąpił błąd podczas aktualizacji danych pacjenta.");
+        }
 
-        model.addAttribute("patient", patient);
-        model.addAttribute("address", address);
-
-        patientService.updatePatient(patient, address);
-        redirectAttributes.addFlashAttribute("success", "Zaktualizowano dane pacjenta.");
         return "redirect:/patients";
     }
+
 
     @GetMapping("/update-patient")
     public String fullDetailPatient(@RequestParam(value = "id", required = false)
@@ -146,31 +142,46 @@ public class PatientController {
 
     @GetMapping("/search-patient")
     public String searchPatientByPesel(Model model, @RequestParam(value = "pesel", required = false) String pesel) {
+        log.info("Started searching for patient by PESEL number: {}", pesel);
 
-
-        if (!Utils.hasPeselCorrectDigits(pesel) || pesel == null) {
-
+        if (pesel == null || !Utils.hasPeselCorrectDigits(pesel)) {
+            log.warn("Invalid PESEL number format: {}", pesel);
             throw new PeselFormatException(pesel);
-
-        } else {
-
-            PatientDto patientByPesel = patientService.findByPesel(pesel);
+        }
+        PatientDto patientByPesel = patientService.findByPesel(pesel);
+        if (patientByPesel != null) {
             model.addAttribute("patientByPesel", patientByPesel);
+        } else {
+            log.info("No patient found with PESEL number: {}", pesel);
+            model.addAttribute("error", "Nie znaleziono pacjenta.");
         }
 
         return "patient/search-patient";
-
     }
+
 
     @PostMapping("/delete-patient")
-    public String deletePatient(@RequestParam("id") Long id) {
+    public String deletePatient(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+        log.info("Rozpoczęto usuwanie pacjenta o id: {}", id);
 
-        PatientDto patientById = patientService.findById(id);
-        if (patientById != null) {
-            patientService.deletePatient(id);
+        try {
+            PatientDto patientById = patientService.findById(id);
+            if (patientById != null) {
+                patientService.deletePatient(id);
+                redirectAttributes.addFlashAttribute("success", "Pacjent został pomyślnie usunięty.");
+                log.info("Patient with ID has been deleted: {}", id);
+            } else {
+                log.warn("No patient found with ID: {}", id);
+                redirectAttributes.addFlashAttribute("error", "Nie znaleziono pacjenta o podanym id.");
+            }
+        } catch (Exception e) {
+            log.error("An error occurred while deleting patient with ID: {}", id, e);
+            redirectAttributes.addFlashAttribute("error", "Wystąpił błąd podczas usuwania pacjenta.");
         }
+
         return "redirect:/patients";
     }
+
 
     @GetMapping("/delete-patient")
     public String showDeletePatientForm(@RequestParam("id") Long id, Model model) {

@@ -36,9 +36,12 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PatientCard> patientCards = new HashSet<>();
 
-    @ManyToOne
+
+    @ManyToOne()
     private Clinic clinic;
 
     @Embedded
     private Address address;
+
 }
+

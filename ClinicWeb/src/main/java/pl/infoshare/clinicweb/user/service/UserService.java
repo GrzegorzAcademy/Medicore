@@ -27,12 +27,13 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         var user = findUserByEmail(email);
-
+        log.info("Logged in user : {} ", user.getEmail());
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
                 .roles(String.valueOf(user.getRole()))
                 .build();
+
     }
 
     public void addUser(User user) {

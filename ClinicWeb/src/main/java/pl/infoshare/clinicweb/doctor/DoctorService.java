@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import pl.infoshare.clinicweb.patient.Address;
+import pl.infoshare.clinicweb.patient.PatientService;
 import pl.infoshare.clinicweb.user.entity.PersonDetails;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -56,9 +58,9 @@ public class DoctorService {
     }
 
     public void updateDoctor(DoctorDto doctorDto, Address address) {
-
+        DoctorDto byId = findById(doctorDto.getId());
         Doctor doctor = doctorMapper.toEntity(doctorDto);
-        doctor.setAddress(address);
+        updateAttributes(address, byId, doctor);
 
         doctorRepository.save(doctor);
     }
@@ -82,6 +84,8 @@ public class DoctorService {
     public void setDoctorAttributes(Doctor doctor, PersonDetails personDetails,
                                     Address address, Specialization specialization) {
 
+        LocalDate dateBrith = PatientService.decodeDateOfBirth(personDetails.getPesel());
+        personDetails.setBirthDate(dateBrith);
         doctor.setDetails(personDetails);
         doctor.setAddress(address);
         doctor.setSpecialization(specialization);
@@ -94,5 +98,19 @@ public class DoctorService {
         return doctorRepository.findByPesel(pesel).isEmpty() ? false : true;
     }
 
+    private static void updateAttributes(Address address, DoctorDto byId, Doctor doctor) {
+        address.setCity(byId.getCity());
+        address.setZipCode(byId.getZipCode());
+        address.setCountry(byId.getCountry());
+        address.setStreet(byId.getStreet());
+        address.setHouseNumber(byId.getHouseNumber());
+        address.setFlatNumber(byId.getFlatNumber());
+        doctor.setOnline(true);
+        doctor.getDetails().setPesel(byId.getPesel());
+        doctor.getDetails().setGender(byId.getGender());
+        boolean availability = !doctor.isAvailability();
+        doctor.setAvailability(availability);
+        doctor.setAddress(address);
+    }
 
 }

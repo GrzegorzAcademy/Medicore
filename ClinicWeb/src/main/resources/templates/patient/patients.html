@@ -7,13 +7,7 @@
     <title>Lista wszystkich pacjentów</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link th:href="@{styles/newStyle.css}" rel="stylesheet"/>
-    <style>
-        body {
-            background-image: url('/images/pxfuel.jpg');
-            background-size: cover;
-        }
-    </style>
+    <link th:href="@{/styles/newStyle.css}" href="/styles/newStyle.css" rel="stylesheet"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -22,27 +16,27 @@
     </div>
 </nav>
 
-<div class="container content">
-    <h3 class="card-title text-center">Wyszukiwanie pacjenta po numerze PESEL</h3>
-    <form th:action="@{/search-patient(pesel=${pesel})}">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-sm" name="pesel" placeholder="Wpisz numer PESEL"
-                   aria-label="Search"
-                   aria-describedby="button-addon2" required>
-            <button type="submit" class="btn btn-outline-primary" id="button-addon2">Wyszukaj</button>
+<div class="container">
+    <h3 class="text-center">Wyszukiwanie pacjenta po numerze PESEL</h3>
+    <form th:action="@{/search-patient(pesel=${pesel})}" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="pesel" placeholder="Wpisz numer PESEL"
+                   aria-label="Search" aria-describedby="button-addon2" required>
+            <button type="submit" class="btn btn-primary" id="button-addon2">Wyszukaj</button>
         </div>
     </form>
-    <div th:if="${error != null}" class="mt-2 alert alert-danger" role="alert">
+    <div th:if="${error != null}" class="alert alert-danger" role="alert">
         <p th:text="${error}">Błąd</p>
     </div>
-    <div th:align="center" th:if="${success != null}" class="mt-4 alert alert-success" role="alert">
+    <div th:if="${success != null}" class="alert alert-success" role="alert">
         <p th:text="${success}">Sukces</p>
     </div>
-    <h4>Wszyscy nasi pacjenci</h4>
-    <div class="card mt-3">
+
+    <h4 class="mt-4">Wszyscy nasi pacjenci</h4>
+    <div class="card mt-3 table-container">
         <table class="table table-striped table-hover">
             <thead>
-            <tr style="text-align: center">
+            <tr class="text-center">
                 <th>Imię</th>
                 <th>Nazwisko</th>
                 <th>Numer telefonu</th>
@@ -53,7 +47,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="patient:${listPatient}" style="text-align: center">
+            <tr th:each="patient : ${listPatient}" class="text-center">
                 <td th:text="${patient.name}">Imię</td>
                 <td th:text="${patient.surname}">Nazwisko</td>
                 <td th:text="${patient.phoneNumber}">Numer telefonu</td>
@@ -61,7 +55,7 @@
                 <td>
                     <div sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/update-patient(id=${patient.id})}"
-                           class="btn btn-primary btn-sm" role="button">Pokaż i edytuj dane</a>
+                           class="btn btn-primary btn-sm">Pokaż i edytuj dane</a>
                     </div>
                 </td>
                 <td>
@@ -76,52 +70,45 @@
             </tr>
             </tbody>
         </table>
+        <a th:href="@{/patient}" class="btn btn-success mt-3" role="button">Dodaj nowego pacjenta</a>
 
         <div class="row">
-            <div>
-                <nav>
-                    <div th:align="center">Strona: [[${currentPage}]] z [[${totalPages}]]</div>
-                    <div th:align="center">Liczba wszystkich rekordów: [[${totalElements}]]</div>
-                    <div></div>
-                    <ul class="pagination justify-content-center flex-wrap">
-                        <li class="page-item">
-                            <a class="page-link" th:if="${currentPage > 1}"
-                               th:href="@{/patients(page=${1}, pesel=${pesel})}">Pierwsza</a>
-                            <span class="page-link" th:unless="${currentPage > 1}">Pierwsza</span>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" th:if="${currentPage > 1}"
-                               th:href="@{/patients(page=${currentPage - 1},pesel=${pesel})}">Poprzednia</a>
-                            <span class="page-link" th:unless="${currentPage > 1}">Poprzednia</span>
-                        </li>
-                        <li class="page-item">
-                            <span class="page-link" th:each="i : ${pageNumbers}" style="display: inline-block">
-                            <a th:href="@{/patients(page=${i}, pesel=${pesel})}" th:text="${i}"></a>
-                            <span th:if="${i < pageNumbers.size()}"> </span>
-                        </span>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" aria-label="Następna" th:if="${currentPage < totalPages}"
-                               th:href="@{/patients(page=${currentPage + 1},pesel=${pesel})}">Następna</a>
-                            <span class="page-link" th:unless="${currentPage < totalPages}">Następna</span>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" th:if="${currentPage < totalPages}"
-                               th:href="@{/patients(page=${totalPages}, pesel=${pesel})}">Ostatnia</a>
-                            <span class="page-link" th:unless="${currentPage < totalPages}">Ostatnia</span>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <nav>
+                <div class="text-center">Strona: [[${currentPage}]] z [[${totalPages}]]</div>
+                <div class="text-center">Liczba wszystkich rekordów: [[${totalElements}]]</div>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" th:if="${currentPage > 1}"
+                           th:href="@{/patients(page=${1}, pesel=${pesel})}">Pierwsza</a>
+                        <span class="page-link" th:unless="${currentPage > 1}">Pierwsza</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:if="${currentPage > 1}"
+                           th:href="@{/patients(page=${currentPage - 1}, pesel=${pesel})}">Poprzednia</a>
+                        <span class="page-link" th:unless="${currentPage > 1}">Poprzednia</span>
+                    </li>
+                    <li th:each="i : ${pageNumbers}" class="page-item">
+                        <a class="page-link" th:href="@{/patients(page=${i}, pesel=${pesel})}" th:text="${i}"></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:if="${currentPage < totalPages}"
+                           th:href="@{/patients(page=${currentPage + 1}, pesel=${pesel})}">Następna</a>
+                        <span class="page-link" th:unless="${currentPage < totalPages}">Następna</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:if="${currentPage < totalPages}"
+                           th:href="@{/patients(page=${totalPages}, pesel=${pesel})}">Ostatnia</a>
+                        <span class="page-link" th:unless="${currentPage < totalPages}">Ostatnia</span>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
-        <a th:href="@{/patient}" class="btn btn-primary" role="button"
-           aria-pressed="true">Dodaj nowego pacjenta</a>
-
     </div>
+
 </div>
 
-<footer class="mt-auto">
+<footer>
     <div th:replace="~{fragments/footer :: footer}"></div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

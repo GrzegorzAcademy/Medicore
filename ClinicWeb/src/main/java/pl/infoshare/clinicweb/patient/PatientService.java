@@ -2,6 +2,7 @@ package pl.infoshare.clinicweb.patient;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 
-
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class PatientService {
@@ -29,27 +30,29 @@ public class PatientService {
 
 
     public void addPatient(Patient patient) {
-
+        log.info("Adding new patient: {}", patient.getId());
         patientRepository.save(patient);
     }
 
     public PatientDto findById(Long id) {
-
+        log.info("Searching for patient by id: {}", id);
         return patientRepository.findById(id)
                 .map(patientMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Patient not found with id %s", id)));
     }
 
     public PatientDto findByPesel(String pesel) {
-
+        log.info("Searching for patient by PESEL: {}", pesel);
         return patientRepository.findByPesel(pesel.trim())
                 .map(patientMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Patient not found with pesel %s", pesel)));
     }
 
     public boolean existsByPesel(String pesel) {
-
-        return patientRepository.findByPesel(pesel).isEmpty() ? false : true;
+        log.info("Checking existence of patient by PESEL: {}", pesel);
+        boolean exists = patientRepository.findByPesel(pesel).isPresent();
+        log.info("Patient exists by PESEL {}: {}", pesel, exists);
+        return exists;
     }
 
     public List<PatientDto> findAllPatients() {
@@ -69,14 +72,17 @@ public class PatientService {
         return entities.map(patientMapper::toDto);
     }
 
-    public void updatePatient(PatientDto patientDto, Address address) {
+    public void updatePatient(PatientDto patientDto, Address address, PersonDetails personDetails) {
 
-        Patient patient = patientMapper.toEntity(patientDto);
+        Patient patient = patientRepository.findById(patientDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Pacjent o ID " + patientDto.getId() + " nie istnieje."));
         patient.setAddress(address);
+        patient.setPersonDetails(personDetails);
+
 
         patientRepository.save(patient);
-
     }
+
 
     @Transactional
     public void deletePatient(Long id) {
@@ -91,10 +97,10 @@ public class PatientService {
     public void setPatientAttributes(Patient patient, PersonDetails personDetails,
                                      Address address) {
 
-        LocalDate localDateBirthDate = PatientService.decodeDateOfBirth(personDetails.getPesel());
+        LocalDate dateBirthDate = PatientService.decodeDateOfBirth(personDetails.getPesel());
 
         patient.setPersonDetails(personDetails);
-        patient.getPersonDetails().setBirthDate(localDateBirthDate);
+        patient.getPersonDetails().setBirthDate(dateBirthDate);
         patient.setAddress(address);
 
     }

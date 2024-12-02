@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "visit")
+@Table(name = "visits")
 
 public class Visit {
 

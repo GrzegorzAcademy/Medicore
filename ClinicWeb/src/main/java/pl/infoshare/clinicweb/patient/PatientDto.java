@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.infoshare.clinicweb.user.entity.Gender;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +28,7 @@ public class PatientDto {
     private String zipCode;
     private String houseNumber;
     private String flatNumber;
+    private Gender gender;
 
 
 }

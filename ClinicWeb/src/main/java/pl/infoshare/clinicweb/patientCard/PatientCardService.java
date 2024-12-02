@@ -40,16 +40,16 @@ public class PatientCardService {
     }
 
     static PatientCardDTO getPatientCardDTO(VisitDto visit) {
-        PatientCardDTO patientCardDTO = new PatientCardDTO();
-        patientCardDTO.setPatientFirstName(visit.getPatientName());
-        patientCardDTO.setPatientLastName(visit.getPatientSurname());
-        patientCardDTO.setDoctorFirstName(visit.getDoctorName());
-        patientCardDTO.setDoctorLastName(visit.getDoctorSurname());
-        patientCardDTO.setPatientId(visit.getPatientId());
-        patientCardDTO.setDoctorId(visit.getDoctorId());
-        patientCardDTO.setPatientPesel(visit.getPatientPesel());
-        patientCardDTO.setDateOfVisit(visit.getVisitDate());
-        return patientCardDTO;
+        return PatientCardDTO.builder()
+                .doctorFirstName(visit.getDoctorName())
+                .doctorLastName(visit.getDoctorSurname())
+                .doctorId(visit.getDoctorId())
+                .patientFirstName(visit.getPatientName())
+                .patientLastName(visit.getPatientSurname())
+                .patientPesel(visit.getPatientPesel())
+                .patientId(visit.getPatientId())
+                .dateOfVisit(visit.getVisitDate())
+                .build();
     }
 
 

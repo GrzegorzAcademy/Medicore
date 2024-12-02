@@ -1,14 +1,10 @@
 <nav th:fragment="navbar" class="navbar navbar-expand-lg"
      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <div class="logo">
-        <a th:href="@{/}"><img width="442" height="57" src="/images/new%20logo%20black.png" alt="logo2"></a>
+        <a th:href="@{/}"><img width="380" height="43" src="/images/newLogo.png" alt="logo2"></a>
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" aria-current="page" th:href="@{/}">Home</a>
-            </li>
-
             <div sec:authorize="hasAnyRole('ADMIN', 'DOCTOR')">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/visit}">Umów się na wizytę</a>
@@ -27,74 +23,58 @@
                         <li><a class="dropdown-item" th:href="@{/doctors}">Lista naszych lekarzy</a></li>
                         <li><a class="dropdown-item" th:href="@{/visits}">Lista wszystkich wizyt</a></li>
                     </ul>
-
                 </li>
             </div>
 
             <div sec:authorize="hasAnyRole('ADMIN', 'DOCTOR')">
                 <li class="nav-item">
-                    <a class="nav-link enable" th:href="@{patient}" tabindex="-1" aria-disabled="true">Utwórz konto
-                        nowego
-                        pacjenta</a>
+                    <a class="nav-link enable" th:href="@{patient}" tabindex="-1" aria-disabled="true">Utwórz konto nowego pacjenta</a>
                 </li>
             </div>
 
             <div sec:authorize="hasRole('ADMIN')">
                 <li class="nav-item">
-                    <a class="nav-link enable" th:href="@{doctor}" tabindex="-1" aria-disabled="true">Utwórz konto
-                        nowego
-                        lekarza</a>
-                </li>
-            </div>
-            <div>
-                <li class="nav-item">
-                    <span sec:authorize="isAnonymous()">
-                            <a class="nav-link enable" th:href="@{/register}" tabindex="-1" aria-disabled="true">Zarejestruj się</a>
-                    </span>
-            </div>
-            <div>
-                <li class="nav-item">
-                    <span sec:authorize="hasRole('ADMIN')">
-                            <a class="nav-link enable" th:href="@{/register}" tabindex="-1" aria-disabled="true">Tworzenie użytkownika</a>
-                    </span>
-            </div>
-            <div>
-                <li class="nav-item">
-                        <span sec:authorize="isAnonymous()">
-                            <a class="nav-link enable" th:href="@{/login}" tabindex="-1" aria-disabled="true">Zaloguj się</a>
-                        </span>
-
-                    <span sec:authorize="isAuthenticated()">
-                            <a class="nav-link enable" th:href="@{/logout}" tabindex="-1" aria-disabled="true">Wyloguj się</a>
-                        </span>
+                    <a class="nav-link enable" th:href="@{doctor}" tabindex="-1" aria-disabled="true">Utwórz konto nowego lekarza</a>
                 </li>
             </div>
 
-            <div>
+            <div sec:authorize="isAnonymous()">
                 <li class="nav-item">
-                    <span sec:authorize="isAuthenticated()">
-                        <a class="nav-link enable">Zalogowana/y:
-                            <span th:text="${#authentication.name}">[Użytkownik]</span>
-                        </a>
-                    </span>
-                </li>
-                <div>
-
-                    </p>
-
-
-                </div>
-                </span>
+                    <a class="nav-link enable" th:href="@{/register}" tabindex="-1" aria-disabled="true">Zarejestruj się</a>
                 </li>
             </div>
 
-            <li class="nav-ite ">
-                <div class="nav-link enable">
-                    <div class="current-time text-white text-end" id="currentTime"></div>
-                </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                <li class="nav-item">
+                    <a class="nav-link enable" th:href="@{/register}" tabindex="-1" aria-disabled="true">Tworzenie użytkownika</a>
+                </li>
+            </div>
+
+            <div sec:authorize="isAnonymous()">
+                <li class="nav-item">
+                    <a class="nav-link enable" th:href="@{/login}" tabindex="-1" aria-disabled="true">Zaloguj się</a>
+                </li>
+            </div>
+
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link enable" th:href="@{/logout}" tabindex="-1" aria-disabled="true">Wyloguj się</a>
+                </li>
+            </div>
+
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link enable">Zalogowana/y: <span th:text="${#authentication.name}">[Użytkownik]</span></a>
+                </li>
+            </div>
+
+            <li class="d-flex align-items-center">
+                <div class="nav-link enable text-white" id="currentTime"></div>
             </li>
         </ul>
     </div>
+
+
     <script>
         function updateCurrentDateTime() {
             const currentTimeElement = document.getElementById('currentTime');
@@ -104,19 +84,14 @@
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const year = now.getFullYear();
 
-
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
 
-
-            currentTimeElement.textContent = `Aktualna data i godzina: ${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+            currentTimeElement.textContent = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
         }
 
         setInterval(updateCurrentDateTime, 1000);
-
-
         updateCurrentDateTime();
     </script>
 </nav>
-
