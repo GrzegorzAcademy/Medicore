@@ -35,21 +35,12 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    public void addUser(User user) {
-
-        userRepository.save(user);
-    }
-
-    public void saveUser(UserDto user) {
+    public UserDto saveUser(UserDto user) {
 
         var appUser = userMapper.toEntity(user);
-        userRepository.save(appUser);
+        User u = userRepository.save(appUser);
         log.info("User patient saved with ID: {}", appUser.getId());
-    }
-
-    public void deleteUserById(Long id) {
-
-        userRepository.deleteById(id);
+        return userMapper.toDto(u);
     }
 
     public User findUserByEmail(final String email) {
@@ -65,6 +56,5 @@ public class UserService implements UserDetailsService {
         return user.isPresent();
 
     }
-
 
 }
