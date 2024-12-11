@@ -107,9 +107,9 @@ INSERT INTO patients_cards (date_of_visit, doctor_id, id, patient_id, diagnosis,
 ('2024-12-25 11:00:00', 1, 30, 10, 'Flu', 'Standard treatment', 'Fever, cough', 'Flu meds');
 
 
-INSERT INTO users(EMAIL, PASSWORD, ROLE, NAME, SURNAME, PHONE_NUMBER, PESEL) VALUES
-("malwina.kozak@gmail.com", "proste1234", 'PATIENT', 'Malwina', 'Kozak', '765-444-555', '78010575162'),
-("damian.pered@onet.pl", "Puszek123!", 'DOCTOR', 'Damian', 'Pered', '999-334-334', "69062736753"),
-("admin@onet.pl", "admin", 'ADMIN', 'Adam', 'Polanski', '443222332', '05240217528');
+INSERT INTO users(EMAIL, PASSWORD, ROLE, VERIFIED, FORM_FILLED) VALUES
+("malwina.kozak@gmail.com", "proste1234", 'PATIENT'),
+("damian.pered@onet.pl", "Puszek123!", 'DOCTOR'),
+("admin@onet.pl", "admin", 'ADMIN');
 
 

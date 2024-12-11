@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.infoshare.clinicweb.patient.Address;
 import pl.infoshare.clinicweb.user.entity.PersonDetails;
 
@@ -55,12 +56,20 @@ public class DoctorService {
         doctorRepository.deleteById(idDoctor);
     }
 
-    public void updateDoctor(DoctorDto doctorDto, Address address) {
+    @Transactional
+    public void updateDoctor(DoctorDto doctorDto) {
 
-        Doctor doctor = doctorMapper.toEntity(doctorDto);
-        doctor.setAddress(address);
+        doctorRepository.findById(doctorDto.getId())
+                .ifPresent(doctor -> {
 
-        doctorRepository.save(doctor);
+                    doctor.setId(doctorDto.getId());
+                    doctor.getDetails().setName(doctorDto.getName());
+                    doctor.getDetails().setSurname(doctorDto.getSurname());
+                    doctor.setSpecialization(doctorDto.getSpecialization());
+
+                    doctorRepository.save(doctor);
+                });
+
     }
 
 
@@ -91,7 +100,7 @@ public class DoctorService {
 
     public boolean existsByPesel(String pesel) {
 
-        return doctorRepository.findByPesel(pesel).isEmpty() ? false : true;
+        return doctorRepository.existsByPesel(pesel);
     }
 
 

@@ -1,5 +1,6 @@
 package pl.infoshare.clinicweb.user.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,13 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.infoshare.clinicweb.doctor.Doctor;
-import pl.infoshare.clinicweb.doctor.DoctorService;
-import pl.infoshare.clinicweb.doctor.Specialization;
-import pl.infoshare.clinicweb.patient.Address;
-import pl.infoshare.clinicweb.patient.Patient;
-import pl.infoshare.clinicweb.patient.PatientService;
-import pl.infoshare.clinicweb.user.entity.PersonDetails;
 import pl.infoshare.clinicweb.user.entity.User;
 import pl.infoshare.clinicweb.user.mapper.UserMapper;
 import pl.infoshare.clinicweb.user.registration.UserDto;
@@ -32,8 +26,6 @@ import static java.lang.String.format;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final PatientService patientService;
-    private final DoctorService doctorService;
     private final UserMapper userMapper;
 
     @Override
@@ -58,53 +50,9 @@ public class UserService implements UserDetailsService {
 
         var appUser = userMapper.toEntity(user);
 
-        var personDetails = new PersonDetails();
-        var address = new Address();
-        address.setCountry("Polska");
-
-
-        switch (user.getRole()) {
-
-            case PATIENT:
-                var patient = new Patient();
-
-                patient.setAddress(address);
-
-                patient.setPersonDetails(personDetails);
-                personDetails.setName(user.getName());
-                personDetails.setSurname(user.getSurname());
-                personDetails.setPesel(user.getPesel());
-                personDetails.setPhoneNumber(user.getPhoneNumber());
-
-                appUser.setPatient(patient);
-                patientService.addPatient(patient);
-
-                patient.setUser(appUser);
-                break;
-
-            case DOCTOR:
-
-                var doctor = new Doctor();
-                doctor.setAddress(address);
-                doctor.setSpecialization(Specialization.NOT_CHOSEN);
-
-                doctor.setDetails(personDetails);
-                personDetails.setName(user.getName());
-                personDetails.setSurname(user.getSurname());
-                personDetails.setPesel(user.getPesel());
-                personDetails.setPhoneNumber(user.getPhoneNumber());
-
-                doctorService.addDoctor(doctor);
-                appUser.setDoctor(doctor);
-                doctor.setUser(appUser);
-
-                break;
-
-        }
-
         userRepository.save(appUser);
 
-        log.info("User patient saved with Email: {}", appUser.getEmail());
+        log.info("User saved with Email: {}", appUser.getEmail());
     }
 
     public void deleteUserById(Long id) {
@@ -134,7 +82,7 @@ public class UserService implements UserDetailsService {
 
         return userRepository.findUserByEmail(email)
                 .map(userMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("User was not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User was not found"));
     }
 
 

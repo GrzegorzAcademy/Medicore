@@ -16,5 +16,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     @Query("select d from Doctor d where d.specialization=:specialization")
     List<Doctor> findAllBySpecialization(Specialization specialization);
 
+    @Query("select case when count(d) > 0 then true else false end from Doctor d where d.details.pesel=:pesel")
+    boolean existsByPesel(String pesel);
+
 
 }

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.infoshare.clinicweb.patient.Address;
-import pl.infoshare.clinicweb.user.entity.PersonDetails;
 import pl.infoshare.clinicweb.user.Utils;
+import pl.infoshare.clinicweb.user.entity.PersonDetails;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -132,11 +132,10 @@ public class DoctorController {
 
     @PostMapping("/update-doctor")
     public String editDoctor(@ModelAttribute("doctor") DoctorDto doctor, Model model,
-                             Address address, RedirectAttributes redirectAttributes) {
+                             RedirectAttributes redirectAttributes) {
 
-        doctorService.updateDoctor(doctor, address);
+        doctorService.updateDoctor(doctor);
         model.addAttribute("doctor", doctor);
-        model.addAttribute("address", address);
         redirectAttributes.addFlashAttribute("success", "Zaktualizowano dane lekarza.");
 
         return "redirect:doctors";

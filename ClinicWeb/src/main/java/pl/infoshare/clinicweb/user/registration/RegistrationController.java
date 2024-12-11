@@ -47,7 +47,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/register-admin")
-    public String registerByAdmin(@ModelAttribute UserDto user, Model model) {
+    public String createUser(@ModelAttribute UserDto user, Model model) {
 
 
         model.addAttribute("user", user);
@@ -58,8 +58,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/register-admin")
-    public String userCreatedByAdmin(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult,
-                                     Model model, RedirectAttributes redirectAttributes) {
+    public String userCreationFromSubmission(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult,
+                                             Model model, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
 
@@ -69,12 +69,12 @@ public class RegistrationController {
         }
 
         userService.saveUser(user);
-        log.info("User was successfully registered by Admin {}", user.getRole(), user.getEmail());
+        log.info("User was successfully registered with email  {}", user.getEmail());
+
         redirectAttributes.addFlashAttribute("success", "Pomyślnie zarejestrowano użytkownika pacjenta.");
 
         return "redirect:/user/registry-admin";
     }
-
 
 
 }
