@@ -19,10 +19,6 @@ public class User {
     private Long id;
     private String email;
     private String password;
-    private String name;
-    private String surname;
-    private String pesel;
-    private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private Role role;
     private boolean verified = false;

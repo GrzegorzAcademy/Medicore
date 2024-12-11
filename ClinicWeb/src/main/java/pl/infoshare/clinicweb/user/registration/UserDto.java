@@ -31,5 +31,7 @@ public class UserDto {
     private Role role;
     private Long doctorId;
     private Long patientId;
+    private boolean verified;
+    private boolean formFilled;
 
 }
